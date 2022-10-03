@@ -34,7 +34,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(users);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteUsersById(@PathVariable Long id) {
         try {
             userService.deleteUsersById(id);
@@ -48,10 +48,11 @@ public class UserController {
     public ResponseEntity updateUsers(@PathVariable Long id, @RequestBody UserDTO userDTO) {
         User updateUsers = userService.updateUsers(id, userDTO);
         if (updateUsers == null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to update user. No such user exists.");
+
+            return ResponseEntity.status(HttpStatus.OK).body(updateUsers);
         }
-       return ResponseEntity.status(HttpStatus.OK).body(updateUsers);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Failed to update user. No such user exists.");
     }
 
 
